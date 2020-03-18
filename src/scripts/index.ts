@@ -1,5 +1,7 @@
-import "../stylesheets/index.scss";
+import '../stylesheets/index.scss';
 
-import * as fromUtils from "./utils";
-
-console.log(fromUtils.encode({ toto: "aefiohyaeiuf" }));
+// scripts
+import { Base64 } from './base64';
+document.addEventListener('DOMContentLoaded', () => {
+  const base64 = new Base64();
+});

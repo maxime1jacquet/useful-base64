@@ -3,7 +3,7 @@ export const encode = (obj: any): string => {
   try {
     btoa(JSON.stringify(obj));
   } catch (e) {
-    return "";
+    return '';
   }
 };
 

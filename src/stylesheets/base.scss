@@ -1,6 +1,23 @@
-@import "./variables.scss";
+@import './variables.scss';
 
 body {
   background-color: $mirage;
   color: $boston_blue;
+}
+
+h1 {
+  text-transform: uppercase;
+  color: $mercury;
+  font-size: 40px;
+  text-decoration: underline;
+}
+
+h2 {
+  text-transform: uppercase;
+}
+
+.wysiwyg {
+  color: $mercury;
+  font-size: 15px;
+  line-height: 23px;
 }

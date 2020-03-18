@@ -12,7 +12,8 @@
   "dependencies": {
     "@pika/pack": "^0.5.0",
     "express": "^4.17.1",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
