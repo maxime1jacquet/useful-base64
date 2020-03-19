@@ -1,7 +1,8 @@
 import '../stylesheets/index.scss';
-
-// scripts
 import { Base64 } from './base64';
+import { History } from './history';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const base64 = new Base64();
+  new Base64();
+  // new History();
 });

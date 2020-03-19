@@ -1,15 +1,14 @@
-export const encode = (obj: any): string => {
-  // return btoa(JSON.stringify(obj));
+export const serialize = (obj: string): string => {
   try {
-    btoa(JSON.stringify(obj));
+    return btoa(obj);
   } catch (e) {
     return '';
   }
 };
 
-export const decode = (obj: string): any => {
+export const deserialize = (obj: string): any => {
   try {
-    return JSON.parse(atob(obj));
+    return atob(obj);
   } catch (e) {
     return null;
   }
