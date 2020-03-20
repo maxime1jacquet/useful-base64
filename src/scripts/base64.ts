@@ -22,6 +22,7 @@ export class Base64 {
   constructor() {
     this.listenTextArea();
     this.listenCurrent();
+    getElementID(CurrentType.TEXT).focus();
   }
 
   private listenCurrent() {

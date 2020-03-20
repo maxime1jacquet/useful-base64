@@ -15,6 +15,17 @@ export class Clipboard {
 
   constructor() {
     this.listenBtn();
+    this.listenHistory();
+  }
+
+  private listenHistory() {
+    this.btnEvent$('history').subscribe(e => {
+      const value = e.target.innerHTML ? e.target.innerHTML : '';
+      if (value) {
+        this.copyTextClipboard(value);
+        this.alert();
+      }
+    });
   }
 
   private listenBtn() {

@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-import { getItems, setItems, generateList } from './utils';
+import { getItems, setItems, generateList, serialize } from './utils';
 
 export class History {
   public current$ = new BehaviorSubject('');
@@ -23,7 +23,9 @@ export class History {
   }
 
   private generateHistory(history: string[]): void {
-    let o = history.map(item => `<li>${item}</li>`);
+    let o = history.map(
+      item => `<li class="item-history">${serialize(item)}</li>`
+    );
     if (o && o.length > 0) {
       generateList('history', `<h2>History : </h2><ul>${o.join('')}</ul>`);
     }

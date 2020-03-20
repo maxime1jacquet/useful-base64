@@ -1,13 +1,15 @@
-export const getElementID = (id: string): HTMLElement | any => {
+export const getElementID = (id: string): HTMLElement => {
   return document.getElementById(id);
 };
 
 export const setTextAreaValue = (id: string, value: string): void => {
-  getElementID(id).value = value;
+  const el: any = getElementID(id);
+  el.value = value;
 };
 
 export const getTextAreaValue = (id: string): string => {
-  return getElementID(id).value;
+  const el: any = getElementID(id);
+  return el.value;
 };
 
 export const addClassToElement = (id: string, className: string): void => {
