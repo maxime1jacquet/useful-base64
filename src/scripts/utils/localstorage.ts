@@ -6,7 +6,7 @@ export const getItems = (): string[] => {
 };
 
 export const setItems = (obj: string[]): void => {
-  localStorage.setItem(USEFUL_BASE64, obj.join('///'));
+  localStorage.setItem(USEFUL_BASE64, obj.slice(0, 9).join('///'));
 };
 
 export const clearItems = (): void => {

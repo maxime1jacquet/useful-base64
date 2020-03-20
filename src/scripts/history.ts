@@ -1,13 +1,12 @@
-import { fromEvent, BehaviorSubject, Observable, merge, of } from 'rxjs';
-import { map, pluck, debounceTime, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
-import { getItems, setItems } from './utils';
+import { getItems, setItems, generateList } from './utils';
 
 export class History {
   public current$ = new BehaviorSubject('');
 
   constructor() {
-    this.init();
+    this.generateHistory(getItems());
   }
 
   init() {}
@@ -15,10 +14,18 @@ export class History {
   public historyNew(item: string): void {
     const local: string[] = getItems();
     this.updateCurrent(item);
+    this.generateHistory(local);
     setItems([item, ...local]);
   }
 
-  updateCurrent(item: string) {
+  private updateCurrent(item: string): void {
     this.current$.next(item);
+  }
+
+  private generateHistory(history: string[]): void {
+    let o = history.map(item => `<li>${item}</li>`);
+    if (o && o.length > 0) {
+      generateList('history', `<h2>History : </h2><ul>${o.join('')}</ul>`);
+    }
   }
 }

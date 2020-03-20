@@ -1,43 +1,54 @@
-import { fromEvent, BehaviorSubject, Observable, merge } from 'rxjs';
-import { map, pluck, debounceTime, tap } from 'rxjs/operators';
+import { fromEvent, Observable } from 'rxjs';
+import { map, pluck, debounceTime, tap, filter } from 'rxjs/operators';
 
 import { History } from './history';
+import { Clipboard } from './clipboard';
 import {
   serialize,
   deserialize,
   getElementID,
-  setTextAreaValue,
-  getTextAreaValue
+  setTextAreaValue
 } from './utils';
+
+import { CurrentType } from './model';
 
 export class Base64 {
   public hist = new History();
+  public clipboard = new Clipboard();
+
+  public currentType = CurrentType.TEXT;
   public current$ = this.hist.current$;
 
   constructor() {
     this.listenTextArea();
-    this.listenHistory();
+    this.listenCurrent();
   }
 
-  private listenHistory() {
-    this.current$.subscribe(item => {
-      setTextAreaValue('text', item);
-      setTextAreaValue('base64', serialize(item));
-
-      // this.copyTextToClipboard(item);
-    });
+  private listenCurrent() {
+    this.current$
+      .pipe(
+        filter(item => item && item !== ''),
+        tap(item => {
+          setTextAreaValue(CurrentType.TEXT, item);
+          setTextAreaValue(CurrentType.BASE64, serialize(item));
+          this.clipboard.copyResult(item, this.currentType);
+        })
+      )
+      .subscribe();
   }
 
   private listenTextArea() {
-    this.textAreaEvent$('text')
+    this.textAreaEvent$(CurrentType.TEXT)
       .pipe(debounceTime(200))
       .subscribe(item => {
+        this.currentType = CurrentType.TEXT;
         this.hist.historyNew(item);
       });
 
-    this.textAreaEvent$('base64')
+    this.textAreaEvent$(CurrentType.BASE64)
       .pipe(debounceTime(200))
       .subscribe(item => {
+        this.currentType = CurrentType.BASE64;
         this.hist.historyNew(deserialize(item));
       });
   }
@@ -49,15 +60,4 @@ export class Base64 {
       map((val: string) => val)
     );
   }
-
-  // private copyTextToClipboard(text: string): void {
-  //   navigator.clipboard.writeText(text).then(
-  //     function() {
-  //       console.log('Async: Copying to clipboard was successful!', text);
-  //     },
-  //     function(err) {
-  //       console.error('Async: Could not copy text: ', err);
-  //     }
-  //   );
-  // }
 }
