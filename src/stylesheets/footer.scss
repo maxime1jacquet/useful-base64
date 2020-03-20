@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+.footer {
+  padding: 20px;
+  max-width: 1050px;
+  margin: 0 auto;
+  color: $boston_blue;
+  font-size: 12px;
+  font-weight: 500;
+
+  a {
+    color: $boston_blue;
+  }
+}
