@@ -8,8 +8,12 @@ body {
 h1 {
   text-transform: uppercase;
   color: $mercury;
-  font-size: 40px;
   text-decoration: underline;
+  font-size: 30px;
+
+  @media screen and (min-width: 760px) {
+    font-size: 40px;
+  }
 }
 
 h2 {
