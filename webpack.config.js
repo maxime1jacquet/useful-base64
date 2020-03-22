@@ -26,6 +26,12 @@ module.exports = {
       { from: Path.resolve(__dirname, './src/server.js'), to: 'server.js' }
     ]),
     new CopyWebpackPlugin([
+      {
+        from: Path.resolve(__dirname, './src/manifest.json'),
+        to: 'manifest.json'
+      }
+    ]),
+    new CopyWebpackPlugin([
       { from: Path.resolve(__dirname, './src/assets'), to: 'assets' }
     ]),
     new HtmlWebpackPlugin({
