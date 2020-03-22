@@ -34,6 +34,12 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: Path.resolve(__dirname, './src/assets'), to: 'assets' }
     ]),
+    new CopyWebpackPlugin([
+      {
+        from: Path.resolve(__dirname, './src/serviceWorker.js'),
+        to: 'serviceWorker.js'
+      }
+    ]),
     new HtmlWebpackPlugin({
       template: Path.resolve(__dirname, './src/index.html')
     })
