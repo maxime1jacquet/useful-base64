@@ -4,14 +4,15 @@ import { map, pluck, debounceTime, tap, filter } from 'rxjs/operators';
 import { History } from './history';
 import { Clipboard } from './clipboard';
 import { File } from './file';
+
 import {
   serialize,
   deserialize,
   getElementID,
   setTextAreaValue
-} from './utils';
+} from '../utils';
 
-import { CurrentType } from './model';
+import { CurrentType } from '../models/model';
 
 export class Base64 {
   public hist = new History();
@@ -43,24 +44,20 @@ export class Base64 {
   }
 
   private listenTextArea() {
-    this.textAreaEvent$(CurrentType.TEXT)
-      .pipe(debounceTime(200))
-      .subscribe(item => {
-        this.currentType = CurrentType.TEXT;
-        this.hist.historyNew(item);
-      });
+    this.textAreaEvent$(CurrentType.TEXT).subscribe(item => {
+      this.currentType = CurrentType.TEXT;
+      this.hist.historyNew(item);
+    });
 
-    this.textAreaEvent$(CurrentType.BASE64)
-      .pipe(debounceTime(200))
-      .subscribe(item => {
-        this.currentType = CurrentType.BASE64;
-        this.hist.historyNew(deserialize(item));
-      });
+    this.textAreaEvent$(CurrentType.BASE64).subscribe(item => {
+      this.currentType = CurrentType.BASE64;
+      this.hist.historyNew(deserialize(item));
+    });
   }
 
   private textAreaEvent$(id: string): Observable<string> {
     return fromEvent(getElementID(id), 'input').pipe(
-      debounceTime(300),
+      debounceTime(400),
       pluck('target', 'value'),
       map((val: string) => val)
     );

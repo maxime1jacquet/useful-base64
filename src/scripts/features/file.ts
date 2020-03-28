@@ -1,10 +1,15 @@
 import { BehaviorSubject } from 'rxjs';
 
-import { getElementID } from './utils';
+import {
+  getElementID,
+  addClassToElement,
+  removeClassToElement
+} from '../utils';
 
 export class File {
   public file$ = new BehaviorSubject('');
   public droparea: HTMLElement = getElementID('droparea');
+  private maxFilesAllowed = 1;
 
   constructor() {
     this.init();
@@ -32,7 +37,7 @@ export class File {
   public DragEnter(e: Event) {
     e.stopPropagation();
     e.preventDefault();
-    this.droparea.classList.add('dragging-over');
+    addClassToElement('droparea', 'dragging-over');
   }
 
   public DragOver(e: any) {
@@ -43,13 +48,13 @@ export class File {
   public DragLeave(e: any) {
     e.stopPropagation();
     e.preventDefault();
-    this.droparea.classList.remove('dragging-over');
+    removeClassToElement('droparea', 'dragging-over');
   }
 
   public Drop(e: any) {
     e.stopPropagation();
     e.preventDefault();
-    this.droparea.classList.remove('dragging-over');
+    removeClassToElement('droparea', 'dragging-over');
     this.HandleAllDroppedFiles(e);
   }
 
@@ -59,9 +64,8 @@ export class File {
     if (files.length < 1) {
       return;
     }
-    const maxFilesAllowed = parseInt(e.target.dataset.max_files_allowed, 10);
-    if (Number.isInteger(maxFilesAllowed)) {
-      if (files.length > parseInt(e.target.dataset.max_files_allowed, 10)) {
+    if (Number.isInteger(this.maxFilesAllowed)) {
+      if (files.length > this.maxFilesAllowed) {
         this.HandleTooManyFilesDropped();
         return;
       }
@@ -72,7 +76,7 @@ export class File {
   }
 
   public HandleTooManyFilesDropped() {
-    console.log('Sorry, you dropped more files than allowed.');
+    // console.log('Sorry, you dropped more files than allowed.');
   }
 
   public HandleDroppedFile(file: any) {
@@ -81,17 +85,8 @@ export class File {
     reader.onloadend = () => {
       const fileContents: string = String(reader.result);
       this.file$.next(fileContents);
-      // console.log(file);
-      // console.log('File Name: ' + file.name);
-      // console.log('File Type: ' + file.type);
-      // console.log('File Size (characters): ' + file.size);
-      // console.log('File Last Modified (timestamp): ' + file.lastModified);
-      // console.log('File Last Modified Date: ' + file.lastModifiedDate);
-      // console.log('File Contents:');
-      // console.log(fileContents);
     };
 
-    // reader.readAsText(file);
     reader.readAsDataURL(file);
   }
 }

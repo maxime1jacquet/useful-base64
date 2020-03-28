@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-import { getItems, setItems, generateList, serialize } from './utils';
+import { getItems, setItems, generateList, serialize } from '../utils';
 
 export class History {
   public current$ = new BehaviorSubject('');

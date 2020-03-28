@@ -1,4 +1,4 @@
-import { fromEvent, Observable, merge } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import {
@@ -7,8 +7,8 @@ import {
   getTextAreaValue,
   addClassToElement,
   removeClassToElement
-} from './utils';
-import { CurrentType, BtnType } from './model';
+} from '../utils';
+import { CurrentType, BtnType } from '../models/model';
 
 export class Clipboard {
   public autoCopyResult = false;

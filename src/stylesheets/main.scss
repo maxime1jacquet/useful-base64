@@ -125,14 +125,18 @@
   }
 
   &__drop {
-    width: 100%;
-    margin-top: 20px;
-
-    height: 100px;
-    border: 2px solid $calypso;
-    background-color: rgba($calypso, 0.15);
-    display: flex;
     align-items: center;
+    background-color: rgba($calypso, 0.15);
+    border: 2px solid $calypso;
+    display: flex;
+    height: 100px;
     justify-content: center;
+    margin-top: 20px;
+    transition: all 80ms ease-in;
+    width: 100%;
+
+    &.dragging-over {
+      background-color: rgba($calypso, 1);
+    }
   }
 }
