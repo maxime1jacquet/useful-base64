@@ -1,8 +1,9 @@
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent, Observable, merge } from 'rxjs';
 import { map, pluck, debounceTime, tap, filter } from 'rxjs/operators';
 
 import { History } from './history';
 import { Clipboard } from './clipboard';
+import { File } from './file';
 import {
   serialize,
   deserialize,
@@ -15,9 +16,12 @@ import { CurrentType } from './model';
 export class Base64 {
   public hist = new History();
   public clipboard = new Clipboard();
+  public file = new File();
 
   public currentType = CurrentType.TEXT;
+
   public current$ = this.hist.current$;
+  public currentFile$ = this.file.file$;
 
   constructor() {
     this.listenTextArea();
@@ -26,7 +30,7 @@ export class Base64 {
   }
 
   private listenCurrent() {
-    this.current$
+    merge(this.current$, this.currentFile$)
       .pipe(
         filter(item => item && item !== ''),
         tap(item => {
