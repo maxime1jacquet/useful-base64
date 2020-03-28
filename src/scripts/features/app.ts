@@ -14,7 +14,7 @@ import {
 
 import { CurrentType } from '../models/model';
 
-export class Base64 {
+export class App {
   public hist = new History();
   public clipboard = new Clipboard();
   public file = new File();

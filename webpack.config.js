@@ -5,21 +5,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: {
-    app: Path.resolve(__dirname, './src/scripts/index.ts')
-  },
-
+  // mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  entry: [
+    Path.resolve(__dirname, './src/scripts/index.ts'),
+    Path.resolve(__dirname, './src/stylesheets/index.scss')
+  ],
   output: {
-    path: Path.join(__dirname, './build'),
-    chunkFilename: '[name].js',
-    filename: 'js/[name].js'
+    path: Path.join(__dirname, './dist'),
+    chunkFilename: 'app.js',
+    filename: 'js/app.js'
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: false
-    }
-  },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all',
+  //     name: false
+  //   }
+  // },
   plugins: [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
@@ -72,9 +73,32 @@ module.exports = {
           }
         }
       },
+      // {
+      //   test: /\.s?css$/i,
+      //   use: ['style-loader', 'css-loader?sourceMap=true', 'sass-loader']
+      // }
       {
-        test: /\.s?css$/i,
-        use: ['style-loader', 'css-loader?sourceMap=true', 'sass-loader']
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'stylesheets/[name].css'
+            }
+          },
+          {
+            loader: 'extract-loader'
+          },
+          {
+            loader: 'css-loader?-url'
+          },
+          {
+            loader: 'postcss-loader'
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       }
     ]
   },

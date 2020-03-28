@@ -1,8 +1,5 @@
-import '../stylesheets/index.scss';
-
-import { Base64 } from './features/app';
-import './sw';
+import { App } from './features/app';
 
 document.addEventListener('DOMContentLoaded', () => {
-  new Base64();
+  new App();
 });
