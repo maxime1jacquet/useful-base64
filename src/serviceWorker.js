@@ -1,10 +1,10 @@
-const staticDevCoffee = 'dev-coffee-site-v1';
+const static = 'useful-base64';
 const assets = [
   '/',
   '/index.html',
   '/server.js',
   '/js/app.js',
-  '/1.js'
+  '/stylesheets/index.css'
   // '/images/coffee1.jpg',
   // '/images/coffee2.jpg',
   // '/images/coffee3.jpg',
@@ -18,7 +18,7 @@ const assets = [
 
 self.addEventListener('install', installEvent => {
   installEvent.waitUntil(
-    caches.open(staticDevCoffee).then(cache => {
+    caches.open(static).then(cache => {
       cache.addAll(assets);
     })
   );
