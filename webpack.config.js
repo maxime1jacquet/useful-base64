@@ -2,7 +2,6 @@ const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   // mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -73,10 +72,6 @@ module.exports = {
           }
         }
       },
-      // {
-      //   test: /\.s?css$/i,
-      //   use: ['style-loader', 'css-loader?sourceMap=true', 'sass-loader']
-      // }
       {
         test: /\.scss$/,
         use: [

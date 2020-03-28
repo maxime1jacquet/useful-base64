@@ -6,7 +6,8 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "declaration": true,
-    "moduleResolution": "node"
-  },
-  "include": ["src"]
+    "moduleResolution": "node",
+    "outDir": "./typescript-out",
+    "rootDir": "."
+  }
 }
