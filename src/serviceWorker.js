@@ -4,16 +4,9 @@ const assets = [
   '/index.html',
   '/server.js',
   '/js/app.js',
-  '/stylesheets/index.css'
-  // '/images/coffee1.jpg',
-  // '/images/coffee2.jpg',
-  // '/images/coffee3.jpg',
-  // '/images/coffee4.jpg',
-  // '/images/coffee5.jpg',
-  // '/images/coffee6.jpg',
-  // '/images/coffee7.jpg',
-  // '/images/coffee8.jpg',
-  // '/images/coffee9.jpg'
+  '/stylesheets/index.css',
+  '/assets/favicon.ico',
+  '/assets/main-icon.png'
 ];
 
 self.addEventListener('install', installEvent => {
