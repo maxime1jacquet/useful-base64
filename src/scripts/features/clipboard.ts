@@ -6,12 +6,22 @@ import {
   getElementID,
   getTextAreaValue,
   addClassToElement,
-  removeClassToElement
+  removeClassToElement,
+  innerHTMLElement
 } from '../utils';
 import { CurrentType, BtnType } from '../models/model';
 
 export class Clipboard {
+  private static instance: Clipboard;
   public autoCopyResult = false;
+  private copyMessage = 'copy to clipboard successful';
+
+  public static getInstance(): Clipboard {
+    if (!Clipboard.instance) {
+      Clipboard.instance = new Clipboard();
+    }
+    return Clipboard.instance;
+  }
 
   constructor() {
     this.listenBtn();
@@ -23,7 +33,7 @@ export class Clipboard {
       const value = e.target.innerHTML ? e.target.innerHTML : '';
       if (value) {
         this.copyTextClipboard(value);
-        this.alert();
+        this.alert(this.copyMessage);
       }
     });
   }
@@ -33,7 +43,7 @@ export class Clipboard {
       const value = getTextAreaValue(CurrentType.TEXT);
       if (value) {
         this.copyTextClipboard(value);
-        this.alert();
+        this.alert(this.copyMessage);
       }
     });
 
@@ -41,7 +51,7 @@ export class Clipboard {
       const value = getTextAreaValue(CurrentType.BASE64);
       if (value) {
         this.copyTextClipboard(value);
-        this.alert();
+        this.alert(this.copyMessage);
       }
     });
   }
@@ -59,7 +69,7 @@ export class Clipboard {
       }
 
       this.copyTextClipboard(toCopy).then(() => {
-        this.alert();
+        this.alert(this.copyMessage);
       });
     }
   }
@@ -71,7 +81,8 @@ export class Clipboard {
     );
   }
 
-  private alert() {
+  public alert(message: string) {
+    innerHTMLElement('alert', message);
     addClassToElement('alert', 'active');
     setTimeout(() => {
       removeClassToElement('alert', 'active');

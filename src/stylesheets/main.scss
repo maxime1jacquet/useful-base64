@@ -119,12 +119,16 @@
       width: 30px;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $light_orchid;
 
       svg {
         fill: $calypso;
       }
+    }
+    &:active {
+      background-color: lighten($light_orchid, 10%);
     }
   }
 
@@ -143,6 +147,7 @@
       background-color: rgba($calypso, 1);
     }
   }
+
   &__drop-file {
     label {
       display: block;
@@ -151,6 +156,26 @@
     }
     input[type='file'] {
       display: none;
+    }
+  }
+
+  &__download {
+    appearance: none;
+    background-color: $calypso;
+    border: 0;
+    padding: 0px 20px;
+    color: $light_orchid;
+    transition: all 150ms ease-out;
+    outline: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: $light_orchid;
+      color: $calypso;
+    }
+    &:active {
+      background-color: lighten($light_orchid, 10%);
     }
   }
 }

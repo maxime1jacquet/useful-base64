@@ -9,13 +9,16 @@ import {
 
 import { CurrentType } from '../models/model';
 import { History } from './history';
+import { Clipboard } from './clipboard';
 import { withLatestFrom } from 'rxjs/operators';
 
 export class File {
   public hist = History.getInstance();
+  public clipboard = Clipboard.getInstance();
 
   private droparea: HTMLElement = getElementID('droparea');
   private maxFilesAllowed = 1;
+  private nameDownloadFile = 'convertWithUsefulBase64';
 
   constructor() {
     this.init();
@@ -77,7 +80,7 @@ export class File {
     this.HandleAllDroppedFiles(e);
   }
 
-  private HandleAllDroppedFiles(e: any) {
+  private HandleAllDroppedFiles(e: any): void {
     const dt = e.dataTransfer;
     const files = dt.files;
     if (files.length < 1) {
@@ -94,11 +97,12 @@ export class File {
     }
   }
 
-  private HandleTooManyFilesDropped() {
-    // console.log('Sorry, you dropped more files than allowed.');
+  private HandleTooManyFilesDropped(): void {
+    this.clipboard.alert('You dropped more files than allowed');
   }
 
   private HandleDroppedFile(file: any) {
+    this.clipboard.alert('Work in progress');
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -109,21 +113,40 @@ export class File {
     reader.readAsDataURL(file);
   }
 
-  private download(doc: any) {
+  private download(doc: any): void {
     const docArray = doc.split(',');
-    if (docArray[0]) {
-      const a = document.createElement('a');
-      // const blob = this.b64toBlob(docArray[0], `application/${ext}`);
-      const blob = this.b64toBlob(docArray[1], `application/png`);
+    const arrayName = docArray[0]
+      .split(':')
+      .join('--')
+      .split('/')
+      .join('--')
+      .split('+')
+      .join('--')
+      .split(';')
+      .join('--')
+      .split('--');
 
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(blob, 'test.png');
-      } else {
-        a.href = URL.createObjectURL(blob);
-        a.download = 'test.png';
-        a.click();
-        URL.revokeObjectURL(a.href);
+    if (docArray.length > 1) {
+      if (docArray[0]) {
+        const ext = this.getFileExtension(arrayName);
+        console.log(ext);
+        const a = document.createElement('a');
+        const blob = this.b64toBlob(docArray[1], `application/${ext}`);
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveOrOpenBlob(
+            blob,
+            `${this.nameDownloadFile}.${ext}`
+          );
+        } else {
+          a.href = URL.createObjectURL(blob);
+          a.download = `${this.nameDownloadFile}.${ext}`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }
       }
+    } else {
+      this.clipboard.alert('It is not a valid file');
     }
   }
 
@@ -137,7 +160,6 @@ export class File {
       byteCharacters = deserialize(b64Data);
     } catch (e) {}
     const byteArrays = [];
-
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
       const slice = byteCharacters.slice(offset, offset + sliceSize);
 
@@ -152,5 +174,18 @@ export class File {
 
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
+  }
+
+  private getFileExtension(arrayName: string[]): string {
+    const allowExts = `txt,pdf,svg,jpg,png,jpeg,zip,mp3,rar,tar,xml,bmp,mpeg,tgz,html,htm,css,sass,scss,js',ts',php,vue,odt,gif,tif,tiff,doc`.split(
+      ','
+    );
+
+    const ext: string[] = arrayName.filter(
+      (item: string) => allowExts.indexOf(item) !== -1
+    );
+    // console.log(ext[0]);
+
+    return ext.length > 0 ? ext[0] : 'txt';
   }
 }

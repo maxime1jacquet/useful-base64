@@ -20,6 +20,6 @@ export const removeClassToElement = (id: string, className: string): void => {
   getElementID(id).classList.remove(className);
 };
 
-export const generateList = (id: string, HTML: string): void => {
+export const innerHTMLElement = (id: string, HTML: string): void => {
   getElementID(id).innerHTML = HTML;
 };

@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-import { getItems, setItems, generateList, serialize } from '../utils';
+import { getItems, setItems, innerHTMLElement, serialize } from '../utils';
 
 export class History {
   private static instance: History;
@@ -14,11 +14,8 @@ export class History {
     if (!History.instance) {
       History.instance = new History();
     }
-
     return History.instance;
   }
-
-  init() {}
 
   public historyNew(item: string): void {
     const local: string[] = getItems();
@@ -36,7 +33,7 @@ export class History {
       item => `<li class="item-history">${serialize(item)}</li>`
     );
     if (o && o.length > 0) {
-      generateList('history', `<h2>History : </h2><ul>${o.join('')}</ul>`);
+      innerHTMLElement('history', `<h2>History : </h2><ul>${o.join('')}</ul>`);
     }
   }
 }

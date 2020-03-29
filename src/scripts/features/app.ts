@@ -16,7 +16,7 @@ import { CurrentType } from '../models/model';
 
 export class App {
   public hist = History.getInstance();
-  public clipboard = new Clipboard();
+  public clipboard = Clipboard.getInstance();
   public file = new File();
   public currentType = CurrentType.TEXT;
 

@@ -11,7 +11,7 @@ module.exports = {
   ],
   output: {
     path: Path.join(__dirname, './dist'),
-    chunkFilename: 'app.js',
+    // chunkFilename: 'app.js',
     filename: 'js/app.js'
   },
   // optimization: {
