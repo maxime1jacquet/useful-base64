@@ -3,10 +3,19 @@ import { BehaviorSubject } from 'rxjs';
 import { getItems, setItems, generateList, serialize } from '../utils';
 
 export class History {
+  private static instance: History;
   public current$ = new BehaviorSubject('');
 
   constructor() {
     this.generateHistory(getItems());
+  }
+
+  public static getInstance(): History {
+    if (!History.instance) {
+      History.instance = new History();
+    }
+
+    return History.instance;
   }
 
   init() {}

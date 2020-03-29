@@ -87,10 +87,12 @@
       background-color: rgba($calypso, 0.15);
       border-radius: 5px;
       color: $mercury;
-      margin-bottom: 5px;
-      padding: 20px;
-      overflow-wrap: break-word;
       cursor: pointer;
+      margin-bottom: 5px;
+      max-height: 100px;
+      overflow-wrap: break-word;
+      overflow: hidden;
+      padding: 20px;
     }
   }
 
@@ -139,6 +141,16 @@
 
     &.dragging-over {
       background-color: rgba($calypso, 1);
+    }
+  }
+  &__drop-file {
+    label {
+      display: block;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    input[type='file'] {
+      display: none;
     }
   }
 }
